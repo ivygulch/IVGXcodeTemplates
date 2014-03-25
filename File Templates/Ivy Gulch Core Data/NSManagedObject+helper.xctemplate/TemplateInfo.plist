@@ -50,6 +50,20 @@
 			<string>class</string>
 		</dict>
 		<dict>
+			<key>Description</key>
+			<string>Class prefix for use in constant names</string>
+			<key>Identifier</key>
+			<string>classPrefix</string>
+			<key>Name</key>
+			<string>Class prefix</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<true/>
+			<key>Type</key>
+			<string>text</string>
+		</dict>
+		<dict>
 			<key>Default</key>
 			<string>domainObjectId</string>
 			<key>Description</key>

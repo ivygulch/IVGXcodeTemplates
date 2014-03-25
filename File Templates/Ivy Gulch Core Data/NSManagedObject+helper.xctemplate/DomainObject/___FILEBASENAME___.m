@@ -8,10 +8,12 @@
 
 #import "___FILEBASENAME___.h"
 #import "NSManagedObjectContext+IVGUtils.h"
+#import "___VARIABLE_classPrefix:identifier___Model.h"
+#import "___VARIABLE_classPrefix:identifier___ModelConstants.h"
 #import "NSString+IVGUtils.h"
 #import "IVGClock.h"
 
-#define ENTITY_NAME @"___VARIABLE_categoryClass:identifier___"
+#define ENTITY_NAME k___VARIABLE_classPrefix:identifier______VARIABLE_categoryClass:identifier___
 
 @implementation ___VARIABLE_categoryClass:identifier___ (___VARIABLE_categoryName:identifier___)
 
