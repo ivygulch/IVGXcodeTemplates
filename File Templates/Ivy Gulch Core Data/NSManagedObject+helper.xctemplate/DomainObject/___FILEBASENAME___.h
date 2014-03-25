@@ -12,7 +12,6 @@
 @interface ___VARIABLE_categoryClass:identifier___ (___VARIABLE_categoryName:identifier___)
 
 + (id) newWithContext:(NSManagedObjectContext *) context
-     updateTimestamps:(BOOL) updateTimestamps
                 error:(NSError **) error;
 
 @end

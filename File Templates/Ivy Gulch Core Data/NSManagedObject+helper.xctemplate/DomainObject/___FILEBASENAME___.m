@@ -8,17 +8,23 @@
 
 #import "___FILEBASENAME___.h"
 #import "NSManagedObjectContext+IVGUtils.h"
+#import "NSString+IVGUtils.h"
+#import "IVGClock.h"
 
 #define ENTITY_NAME @"___VARIABLE_categoryClass:identifier___"
 
 @implementation ___VARIABLE_categoryClass:identifier___ (___VARIABLE_categoryName:identifier___)
 
 + (id) newWithContext:(NSManagedObjectContext *) context
-     updateTimestamps:(BOOL) updateTimestamps
                 error:(NSError **) error;
 {
     NSLog(@"%@ newWithContext, entityname:%@", NSStringFromClass(self), ENTITY_NAME);
-    return [self insertEntityWithName:ENTITY_NAME updateTimestamps:updateTimestamps context:context];
+    ___VARIABLE_categoryClass:identifier___ *result = [context insertNewEntityWithName:ENTITY_NAME];
+    result.___VARIABLE_domainObjectId:identifier___ = [NSString UUID];
+    NSDate *now = [[IVGClock sharedClock] currentDate];
+    result.createdTimestamp = now;
+    result.modifiedTimestamp = now;
+    return result;
 }
 
 @end

@@ -20,6 +20,8 @@
 	<key>Options</key>
 	<array>
 		<dict>
+			<key>Default</key>
+			<string>Helper</string>
 			<key>Description</key>
 			<string>The name of the category to create</string>
 			<key>Identifier</key>
@@ -46,6 +48,20 @@
 			<true/>
 			<key>Type</key>
 			<string>class</string>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<string>domainObjectId</string>
+			<key>Description</key>
+			<string>local unique identifier</string>
+			<key>Identifier</key>
+			<string>domainObjectId</string>
+			<key>Name</key>
+			<string>Domain object id</string>
+			<key>Required</key>
+			<false/>
+			<key>Type</key>
+			<string>text</string>
 		</dict>
 		<dict>
 			<key>Default</key>
