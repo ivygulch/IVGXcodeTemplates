@@ -28,8 +28,6 @@
 			<string>categoryName</string>
 			<key>Name</key>
 			<string>Category</string>
-			<key>NotPersisted</key>
-			<true/>
 			<key>Required</key>
 			<true/>
 			<key>Type</key>
@@ -56,8 +54,6 @@
 			<string>classPrefix</string>
 			<key>Name</key>
 			<string>Class prefix</string>
-			<key>NotPersisted</key>
-			<true/>
 			<key>Required</key>
 			<true/>
 			<key>Type</key>
