@@ -12,6 +12,8 @@
 @interface ___FILEBASENAMEASIDENTIFIER___ : NSObject
 
 @property (nonatomic,strong,readonly) NSManagedObjectContext *rootContext;
+@property (nonatomic,strong,readonly) NSPersistentStoreCoordinator *coordinator;
+@property (nonatomic,strong,readonly) NSManagedObjectModel *model;
 
 - (id) initWithUsePrepopulatedIfMissing:(BOOL) usePrepopulatedIfMissing;
 

@@ -10,10 +10,11 @@
 #import "NSManagedObjectContext+IVGUtils.h"
 #import "___VARIABLE_classPrefix:identifier___Model.h"
 #import "___VARIABLE_classPrefix:identifier___ModelConstants.h"
+#import "NSManagedObject+IVGUtils.h"
 #import "NSString+IVGUtils.h"
 #import "IVGClock.h"
 
-#define ENTITY_NAME k___VARIABLE_classPrefix:identifier______VARIABLE_categoryClass:identifier___
+#define ENTITY_NAME kIVGOMEntityName____VARIABLE_categoryClass:identifier___
 
 @implementation ___VARIABLE_categoryClass:identifier___ (___VARIABLE_categoryName:identifier___)
 
@@ -28,5 +29,62 @@
     result.modifiedTimestamp = now;
     return result;
 }
+
+- (NSString *) description;
+{
+    return [NSString stringWithFormat:@"%@(%@)", NSStringFromClass([self class]), self.___VARIABLE_domainObjectId:identifier___];
+}
+
+- (void) willSave
+{
+    if (![self isDeleted]) {
+        [self setPrimitiveValue:[[IVGClock sharedClock] currentDate] forKey:@"modifiedTimestamp"];
+    }
+    [super willSave];
+}
+
+#pragma mark - KVO methods
+
+- (void)awakeFromInsert;
+{
+    [self addPropertyObservers];
+}
+
+- (void)awakeFromFetch;
+{
+    [self addPropertyObservers];
+}
+
+- (void)addPropertyObservers;
+{
+    [self addObserverBlock:^(id managedObject, NSString *keyPath, id oldValue, id newValue) {
+        if (newValue) {
+            [managedObject ensureLocationsHasValue:newValue];
+        }
+    } forKeyPath:@"startLocation"];
+}
+
+- (void)willTurnIntoFault;
+{
+    [self removeObserverBlocksForAllKeyPaths];
+}
+
+/*
+#pragma mark - collection methods
+
+- (void) addItem:(Item *) item;
+{
+    NSMutableSet *items = [self.items mutableCopy];
+    [items addObject:item];
+    self.items = items;
+}
+
+- (void) removeItem:(Item *) item;
+{
+    NSMutableSet *items = [self.items mutableCopy];
+    [items removeObject:item];
+    self.items = items;
+}
+*/
 
 @end

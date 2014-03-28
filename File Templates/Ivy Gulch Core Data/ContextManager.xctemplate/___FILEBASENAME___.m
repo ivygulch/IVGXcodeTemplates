@@ -11,9 +11,10 @@
 #import "IVGUtils.h"
  
 @interface ___FILEBASENAMEASIDENTIFIER___()
+@property (nonatomic,assign) BOOL usePrepopulatedIfMissing;
 @property (nonatomic,strong,readwrite) NSManagedObjectContext *rootContext;
-@property (nonatomic,strong) NSPersistentStoreCoordinator *coordinator;
-@property (nonatomic,strong) NSManagedObjectModel *model;
+@property (nonatomic,strong,readwrite) NSPersistentStoreCoordinator *coordinator;
+@property (nonatomic,strong,readwrite) NSManagedObjectModel *model;
 @end
  
 @implementation ___FILEBASENAMEASIDENTIFIER___
@@ -21,32 +22,53 @@
 - (id) initWithUsePrepopulatedIfMissing:(BOOL) usePrepopulatedIfMissing;
 {
     if ((self = [super init])) {
+        _usePrepopulatedIfMissing = usePrepopulatedIfMissing;
+    }
+
+    return self;
+}
+
+- (NSManagedObjectModel *) model;
+{
+    if (_model == nil) {
         NSURL *modelURL = [[NSBundle mainBundle] URLForResource:k___VARIABLE_classPrefix:identifier___ModelName withExtension:@"momd"];
         _model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    }
+    return _model;
+}
 
+- (NSPersistentStoreCoordinator *) coordinator;
+{
+    if (_coordinator == nil) {
         NSString *destinationPath = [self databasePath];
         NSError *error;
-        if (![[NSFileManager defaultManager] fileExistsAtPath:destinationPath] && usePrepopulatedIfMissing) {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:destinationPath] && self.usePrepopulatedIfMissing) {
             NSString *sourcePath = [[NSBundle mainBundle] pathForResource:k___VARIABLE_classPrefix:identifier___ModelName ofType:@"sqlite"];
             if (![[NSFileManager defaultManager] copyItemAtPath:sourcePath toPath:destinationPath error:&error]) {
                 [self showFatalError:error];
                 return nil;
             }
         }
+
+        _coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.model];
+
         NSURL *storeURL = [[NSURL alloc] initFileURLWithPath:destinationPath isDirectory:NO];
-
-        _coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:_model];
-
         NSDictionary *options = [NSDictionary
                                  dictionaryWithObjectsAndKeys:
                                  [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
                                  [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
                                  nil];
-        if (![_coordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
+        if (![self.coordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
             [self showFatalError:error];
-            return nil;
+            _coordinator = nil;
         }
+    }
+    return _coordinator;
+}
 
+- (NSManagedObjectContext *) rootContext;
+{
+    if (_rootContext == nil) {
         _rootContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [_rootContext setRetainsRegisteredObjects:NO];
         _rootContext.undoManager = [[NSUndoManager  alloc] init];
@@ -55,10 +77,9 @@
             [[_rootContext  undoManager] enableUndoRegistration];
         }
 
-        [_rootContext setPersistentStoreCoordinator:_coordinator];
+        [_rootContext setPersistentStoreCoordinator:self.coordinator];
     }
-
-    return self;
+    return _rootContext;
 }
 
 - (NSString *) databasePath;

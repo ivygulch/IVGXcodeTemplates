@@ -14,4 +14,10 @@
 + (id) newWithContext:(NSManagedObjectContext *) context
                 error:(NSError **) error;
 
+/*
+// sample collection helper methods
+- (void) addItem:(Item *) item;
+- (void) removeItem:(Item *) item;
+*/
+
 @end
