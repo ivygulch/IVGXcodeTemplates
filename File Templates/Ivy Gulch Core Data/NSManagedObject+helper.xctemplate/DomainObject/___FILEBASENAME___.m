@@ -47,15 +47,15 @@
 
 - (void)awakeFromInsert;
 {
-    [self addPropertyObservers];
+    [self addKeyPathObservers];
 }
 
 - (void)awakeFromFetch;
 {
-    [self addPropertyObservers];
+    [self addKeyPathObservers];
 }
 
-- (void)addPropertyObservers;
+- (void)addKeyPathObservers;
 {
 /*
 // example
