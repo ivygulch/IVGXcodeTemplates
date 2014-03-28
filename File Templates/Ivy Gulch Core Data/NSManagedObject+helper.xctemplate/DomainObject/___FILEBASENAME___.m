@@ -57,11 +57,14 @@
 
 - (void)addPropertyObservers;
 {
+/*
+// example
     [self addObserverBlock:^(id managedObject, NSString *keyPath, id oldValue, id newValue) {
         if (newValue) {
             [managedObject ensureLocationsHasValue:newValue];
         }
-    } forKeyPath:@"startLocation"];
+    } forKeyPath:@"PROPERTY_NAME"];
+*/
 }
 
 - (void)willTurnIntoFault;
@@ -69,9 +72,10 @@
     [self removeObserverBlocksForAllKeyPaths];
 }
 
-/*
 #pragma mark - collection methods
 
+/*
+// example
 - (void) addItem:(Item *) item;
 {
     NSMutableSet *items = [self.items mutableCopy];
