@@ -63,7 +63,7 @@
         if (newValue) {
             [managedObject ensureLocationsHasValue:newValue];
         }
-    } forKeyPath:@"PROPERTY_NAME"];
+    } forKeyPath:@"KEYPATH"];
 */
 }
 
